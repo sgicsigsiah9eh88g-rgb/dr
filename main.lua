@@ -10,12 +10,10 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl
 })
 
--- ABAS (Corrigido os parênteses aqui)
 local Tabs = {
     Main = Window:CreateTab({ Title = "Principais", Icon = "home" })
 }
 
--- SLIDER DE VELOCIDADE
 Tabs.Main:CreateSlider("SpeedSlider", {
     Title = "Velocidade (Speed)",
     Default = 16,
@@ -23,11 +21,12 @@ Tabs.Main:CreateSlider("SpeedSlider", {
     Max = 300,
     Rounding = 0,
     Callback = function(Value)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        end
     end
 })
 
--- TOGGLE DE VOAR
 local FlyToggle = Tabs.Main:CreateToggle("FlyToggle", {Title = "Ativar Voo (Fly)", Default = false})
 local flying = false
 local speed = 50
@@ -61,7 +60,6 @@ FlyToggle:OnChanged(function()
     end
 end)
 
--- TOGGLE DE ESP
 Tabs.Main:CreateToggle("ESPToggle", {
     Title = "ESP (Ver Jogadores)",
     Default = false,
