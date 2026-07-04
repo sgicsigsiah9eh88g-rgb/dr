@@ -10,16 +10,24 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl
 })
 
-local Tabs = { Main = Window:CreateTab({ Title = "Principais", Icon = "home" }) }
+-- ABAS (Corrigido os parênteses aqui)
+local Tabs = {
+    Main = Window:CreateTab({ Title = "Principais", Icon = "home" })
+}
 
+-- SLIDER DE VELOCIDADE
 Tabs.Main:CreateSlider("SpeedSlider", {
     Title = "Velocidade (Speed)",
-    Default = 16, Min = 16, Max = 300, Rounding = 0,
+    Default = 16,
+    Min = 16,
+    Max = 300,
+    Rounding = 0,
     Callback = function(Value)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
     end
 })
 
+-- TOGGLE DE VOAR
 local FlyToggle = Tabs.Main:CreateToggle("FlyToggle", {Title = "Ativar Voo (Fly)", Default = false})
 local flying = false
 local speed = 50
@@ -34,7 +42,7 @@ FlyToggle:OnChanged(function()
         bv = Instance.new("BodyVelocity", c)
         bv.maxForce = Vector3.new(1e9, 1e9, 1e9)
         bg = Instance.new("BodyGyro", c)
-        bg.maxTorque = Vector3.new(1e9, 1e9, 1e9)
+        bg.maxForce = Vector3.new(1e9, 1e9, 1e9)
         task.spawn(function()
             while flying and task.wait() do
                 h.PlatformStand = true
@@ -53,8 +61,9 @@ FlyToggle:OnChanged(function()
     end
 end)
 
+-- TOGGLE DE ESP
 Tabs.Main:CreateToggle("ESPToggle", {
-    Title = "ESP (Ver Jogadores)", 
+    Title = "ESP (Ver Jogadores)",
     Default = false,
     Callback = function(Value)
         _G.ESP = Value
